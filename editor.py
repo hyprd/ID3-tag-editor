@@ -42,9 +42,9 @@ def main():
 def rename_file():
     global final_file
     while True:
-        change_filename = input("Do you want to rename the file? (Y/n) ")
+        change_filename = input('Do you want to rename the file? (Y/n) ')
         if re.match("[Yy]", change_filename):
-            new_name = input("Enter new file name: \n")
+            new_name = input('Enter new file name: \n')
             if not new_name.endswith('.mp3'):
                     new_name += ".mp3"          
             os.rename(old_file.replace('.webm', '.mp3'), new_name)
@@ -52,22 +52,22 @@ def rename_file():
             break
         if re.match("[Nn]", change_filename):
             final_file = old_file.replace('.webm', '.mp3')
-            print("File will not be changed.")
+            print('File name will not be changed.')
             break
         else:
-            print("Try again.")
+            print('Try again.')
             
 def edit_file():
     while True:
-        change_metadata = input("Do you want to edit the file metadata? (Y/n) ")
+        change_metadata = input('Do you want to edit the file metadata? (Y/n) ')
         if re.match("[Yy]", change_metadata):
             edit_mp3(final_file)
             break
         if re.match("[Nn]", change_metadata):
-            print("File metadata will not be changed.")
+            print('File metadata will not be changed.')
             break
         else:
-            print("Try again.")
+            print('Try again.')
 
 def download_youtube(source, params):
     with yt_dlp.YoutubeDL(params) as yt:
@@ -77,10 +77,10 @@ def download_youtube(source, params):
         
 def edit_mp3(file):
     audio = ID3(file)
-    tag = int(input("Edit metadata?\n1 - Title\n2 - Artist\n3 - Album\n4 - Year\n5 - Comment\n6 - Genre\n0 - No changes\n"))
+    tag = int(input('Edit metadata?\n1 - Title\n2 - Artist\n3 - Album\n4 - Year\n5 - Comment\n6 - Genre\n0 - No changes\n'))
     if(1 <= tag <= 6):
         while True:
-            new_data = input('Enter new tag information\n')
+            new_data = input('Enter new tag information \n')
             print("Before: \n" + audio.pprint())
             match tag:
                 case 1:
@@ -102,8 +102,12 @@ def edit_mp3(file):
                 edit_mp3(final_file)
                 break
             if re.match("[Nn]", repeat):
-                print("Metadata editing complete.")
+                print('Metadata editing complete.')
                 break
-        
+    elif tag == 0:
+        print('Metadata will not be changed.')
+    else:
+        print('Try again.')
+        edit_mp3(file)
 if __name__ == "__main__":
     main()
