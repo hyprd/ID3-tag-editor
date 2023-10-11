@@ -17,11 +17,23 @@ TagFrames = {
 old_file = ""
 final_file = ""
 
+def main():
+    try: 
+        source = sys.argv[1]
+        re.match(r"^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+", source)
+    except:
+        print('Input error. File must be a valid YouTube link or local mp3 file.')
+        exit()
+    if "mp3" in source:
+        edit_mp3(source)
+    else: 
+        download_youtube(source, params)
+        
 def rename_yt_download(download):
     if download['status'] == 'finished':
         global old_file
         old_file = download['info_dict']['filename']
-               
+
 params = {
     'format': 'bestaudio/best',
     'postprocessors': [{
@@ -32,13 +44,6 @@ params = {
     'postprocessor_hooks' : [rename_yt_download],
 }
 
-def main():
-    source = sys.argv[1]
-    if "mp3" in source:
-        edit_mp3(source)
-    else:
-        download_youtube(source, params)
-        
 def rename_file():
     global final_file
     while True:
